@@ -1,0 +1,48 @@
+{
+  "DataSprzedazy": "2020-07-23",
+  "DataWystawienia": "2020-07-23",
+  "FormatDatySprzedazy": "DZN",
+  "Kontrahent": {
+    "AdresZagraniczny": false,
+    "Email": "jan@nowak.pl",
+    "Identyfikator": null,
+    "KodPocztowy": "00-000",
+    "Miejscowosc": "Warszawa",
+    "Nazwa": "Jan Nowak",
+    "OsobaFizyczna": true,
+    "Ulica": "Al. Jerozolimskie, 111/22"
+  },
+  "LiczOd": "NET",
+  "MiejsceWystawienia": "Warszawa",
+  "NazwaSzablonu": "Logo",
+  "Numer": null,
+  "PodpisWystawcy": "Pawe\u0142 Nowosielski",
+  "Pozycje": [
+    {
+      "CenaJednostkowa": 1.23,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Pozycja kt\u00f3rej nie umiem wyja\u015bni\u0107",
+      "PKWiU": "",
+      "StawkaVat": 0.23,
+      "TypStawkiVat": "PRC"
+    },
+    {
+      "CenaJednostkowa": 9.99,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Kolejna dro\u017csza od \ud83d\udc46o tej",
+      "PKWiU": "",
+      "StawkaVat": 0.23,
+      "TypStawkiVat": "PRC"
+    }
+  ],
+  "RodzajPodpisuOdbiorcy": "BPO",
+  "SplitPayment": false,
+  "SposobZaplaty": "PRZ",
+  "TerminPlatnosci": "2020-08-06",
+  "Uwagi": "Komentarz sw\u00f3j pozostawiam",
+  "WidocznyNumerGios": false,
+  "Zaplacono": 11.22,
+  "ZaplaconoNaDokumencie": 11.22
+}

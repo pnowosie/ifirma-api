@@ -1,0 +1,19 @@
+issuer: Paweł Nowosielski
+issue_place: Warszawa
+
+known_customer:
+  name: CONSENSIUS F
+  tax_id: '7010345307'
+
+positions:
+  - name: Pozycja której nie umiem wyjaśnić
+    amount: 1.23
+  - name: Kolejna droższa od 👆 o tej
+    amount: 9.99
+
+ban: '00000000000000000000000000'
+comments: >
+  Please ignore this invoice!
+  Proszę zignorować - faktura testowa
+
+send_to: 'nowosielski+inv-00@gmail.com'
