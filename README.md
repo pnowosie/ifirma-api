@@ -33,6 +33,7 @@ Or create invoice from code
 
 ```python
 from ifirma.invoice import (Invoice, Customer, InvoicePosition, INVOICE_TYPE)
+from ifirma.request import send_invoice
 
 invoice = Invoice(
     invoice_type=INVOICE_TYPE.NON_VAT_PAYER,
@@ -44,7 +45,7 @@ invoice = Invoice(
 ).with_comments(
     f"Nr zamówienia: {numer}"
 ).with_position(
-    InvoicePosition(product_name, float(price)
+    InvoicePosition(product_name, float(price))
 ).with_new_customer(
     Customer(full_name, email, zip, city, street1, street2)
 )
@@ -56,3 +57,24 @@ invoice.with_known_customer(
   name, tax_id
 )
 ```
+
+Having invoice object, we can send it to create an invoice in the ifirma. Please mind that two environment variables
+IFIRMA_API_USERNAME and IFIRMA_API_KEY have to be set to authenticate API request.
+```python
+create_invoice_response = send_invoice(invoice)
+
+if create_invoice_response.success:
+  print(f"Invoice created with id {create_invoice_response.invoice_id}")
+else:
+  print("Something bad has happened: " + create_invoice_response.message)
+```
+
+Next step can be send an email with the invoice attached to the customer email address. CC is delivered also to our address registered in the ifirma.
+```python
+from ifirma.request import send_email
+
+custom_message = "Can you please send me more money? I'm getting ambitious vacation plans!"
+email_send_response = send_email(invoice_id, customer_email_address, custom_message)
+```
+
+Please check [this example](https://github.com/pnowosie/ifirma-api/blob/main/sample_invoice/main.py).
