@@ -12,6 +12,7 @@ API_CREATE_INVOICE_URL = "{}/fakturakraj.json".format(API_URL)
 API_SEND_EMAIL_URL_WITH_PARAM = "{}/fakturakraj/send/".format(API_URL), "{}.json?wyslijEfaktura=true"
 API_GET_INVOICES_LIST_URL="{}/faktury.json".format(API_URL)
 API_GET_INVOICE_DETAILS_URL_WITH_PARAM="{}/fakturakraj/".format(API_URL), "{}.json"
+API_DOWNLOAD_INVOICE_URL_WITH_PARAM="{}/fakturakraj/".format(API_URL), "{}.pdf.{}"
 INVOICE_KEY_NAME = "faktura"
 
 def sign_raw(data, key):
@@ -76,6 +77,17 @@ def get_invoice(invoice_id):
     r.raise_for_status()
     return r.json()
 
+def download_invoice(invoice_id, path, type="single"):
+    url, param = API_DOWNLOAD_INVOICE_URL_WITH_PARAM
+
+    request_url = url + param.format(invoice_id, type)
+    auth = sign(request_url, '')
+    
+    headers = {'Accept': 'application/pdf', 'Authentication': auth}
+    r = requests.get(request_url, headers=headers)
+
+    r.raise_for_status()
+    path.write_bytes(r.content)
 
 class InvoiceResponse:
     def __init__(self, response):
