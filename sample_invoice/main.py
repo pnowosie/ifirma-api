@@ -1,5 +1,7 @@
 import os, sys
+import requests
 from pathlib import Path
+
 
 temp_dir = Path("/tmp")
 script_path = os.path.realpath(__file__)
@@ -8,7 +10,8 @@ sys.path.append(module_path)
 print("Module path: " + module_path)
 
 from ifirma.yaml_parser import parse
-from ifirma.request import send_invoice, send_email, download_invoice
+from ifirma.serializer import make_email, make_invoice
+from ifirma.request import Request, InvoiceResponse
 
 
 
@@ -22,16 +25,27 @@ if __name__ == "__main__":
     with open(filename) as f:
         task = parse(f)
     
-    create_invoice_response = send_invoice(task['invoice'])
+    invoice_data = make_invoice(task['invoice'])
+    submit_reqest = Request().submit(invoice_data)
+    resp = submit_reqest.execute(requests)
+    resp.raise_for_status()
+    create_invoice_response = InvoiceResponse(resp.json())
     print(create_invoice_response)
     invoice_id = create_invoice_response.invoice_id
 
     print(f'Invoice created successfully {invoice_id=}')
 
     if create_invoice_response.success and (email_address := task.get('send_to')):
-        email_send_response = send_email(invoice_id, email_address, task['message'])
-        print(f'Email sent {email_send_response}')
+        email_data = make_email(email_address, task['message'])
+        email_request = Request().email(invoice_id, email_data)
+        email_send_response = email_request.execute(requests)
+        email_send_response.raise_for_status()
+        print(f'Email sent {email_send_response.json()}')
 
     download_path = temp_dir / f"invoice_{invoice_id}.pdf"
-    download_invoice(invoice_id, download_path)
-    print(f"Invoice copied to {download_path}")
+    download_request = Request().download(invoice_id)
+    download_resp = download_request.execute(requests)
+    download_resp.raise_for_status()
+
+    download_path.write_bytes(download_resp.content)
+    print(f"Invoice written to {download_path}")
