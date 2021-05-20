@@ -5,13 +5,13 @@ API_URL = 'https://www.ifirma.pl/iapi'
 API_INVOICE_OPER = API_URL + '/fakturakraj'
 API_INVOICE_LIST = API_URL + '/faktury.json'
 
+
 class Request:
     def __init__(self, api_user=None, api_key=None):
-        from ifirma.config import API_USER, API_KEY
+        from ifirma.config import get_credentials
         self.data = None
         self.headers = {'Content-Type': 'application/json; charset=utf8', }
-        self.api_user = api_user or API_USER
-        self.api_key = api_key or API_KEY
+        self.api_user, self.api_key = get_credentials(api_user, api_key)
 
     def get(self, invoice_id):
         self.url = f"{API_INVOICE_OPER}/{invoice_id}.json"
@@ -55,7 +55,7 @@ class Request:
     
     def execute(self, http_module):
         headers = {**self.headers, 'Authentication': self.auth_header}
-        if self.data:
+        if self.data is not None:
             return http_module.post(self.url, data=self.data, headers=headers)
         else:
             return http_module.get(self.url, headers=headers)

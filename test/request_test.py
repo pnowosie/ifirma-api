@@ -1,6 +1,6 @@
-import pytest
+import pytest, os
 from ifirma.request import Request
-import ifirma.config as config
+
 
 def test_request_passing_params():
     req = Request('user', 'api_key')
@@ -9,17 +9,25 @@ def test_request_passing_params():
     assert req.api_key == 'api_key'
 
 def test_request_from_config():
-    config.API_KEY, config.API_USER = 'api_key', 'user'
+    os.environ['IFIRMA_API_KEY'] = 'api_key'
+    os.environ['IFIRMA_API_USERNAME'] = 'user'
 
     req = Request()
+
+    # it's important to tear down
+    del os.environ['IFIRMA_API_USERNAME']
+    del os.environ['IFIRMA_API_KEY']
 
     assert req.api_user == 'user'
     assert req.api_key == 'api_key'
 
 def test_request_mixed_passing_params_and_config():
-    config.API_USER = 'user'
+    os.environ['IFIRMA_API_USERNAME'] = 'user'
 
     req = Request(api_key='api_key')
+
+    # it's important to tear down
+    del os.environ['IFIRMA_API_USERNAME']
 
     assert req.api_user == 'user'
     assert req.api_key == 'api_key' 
