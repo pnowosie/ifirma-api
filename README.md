@@ -36,7 +36,6 @@ Or create invoice from code
 
 ```python
 from ifirma.invoice import (Invoice, Customer, InvoicePosition, INVOICE_TYPE)
-from ifirma.request import send_invoice
 
 invoice = Invoice(
     invoice_type=INVOICE_TYPE.NON_VAT_PAYER,
@@ -64,20 +63,34 @@ invoice.with_known_customer(
 Having invoice object, we can send it to create an invoice in the ifirma. Please mind that two environment variables
 IFIRMA_API_USERNAME and IFIRMA_API_KEY have to be set to authenticate API request.
 ```python
-create_invoice_response = send_invoice(invoice)
+import ifirma.api as Api
+
+create_invoice_response = Api.create_invoice(invoice)
 
 if create_invoice_response.success:
-  print(f"Invoice created with id {create_invoice_response.invoice_id}")
+    print(f"Invoice created with id {create_invoice_response}")
 else:
-  print("Something bad has happened: " + create_invoice_response.message)
+    print("Something bad has happened: " + create_invoice_response.message)
 ```
 
-Next step can be send an email with the invoice attached to the customer email address. CC is delivered also to our address registered in the ifirma.
+Next step can be send an email with the invoice attached to the customer email address. CC is delivered also to our
+address registered in the ifirma.
+
 ```python
-from ifirma.request import send_email
+import ifirma.api as Api
 
 custom_message = "Can you please send me more money? I'm getting ambitious vacation plans!"
-email_send_response = send_email(invoice_id, customer_email_address, custom_message)
+email_send_response = Api.email_invoice(invoice_id, customer_email_address, custom_message)
+```
+
+If the pdf copy of the invoice is needed to be stored, we can download it as well
+
+```python
+import ifirma.api as Api
+from pathlib import Path
+
+file_path = Path('/tmp') / f"invoice_{invoice_id}.pdf"
+Api.download_invoice(invoice_id, file_path)
 ```
 
 Please check [this example](https://github.com/pnowosie/ifirma-api/blob/main/sample_invoice/main.py).
