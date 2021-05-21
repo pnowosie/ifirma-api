@@ -80,6 +80,9 @@ class InvoiceResponse:
         if self.success:
             self.invoice_id = response['Identyfikator']
 
+    def __repr__(self):
+        return "InvoiceResponse(success=%r, %r)" % (self.success, self.invoice_id if self.success else self.message)
+
 
 def sign_raw(data, key):
     import hmac
