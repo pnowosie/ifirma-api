@@ -17,3 +17,6 @@ comments: >
   Proszę zignorować - faktura testowa
 
 send_to: 'example@email.com'
+message: >
+  ‼️ PROSZĘ ZIGNOROWAC - FAKTURA TESTOWA ‼️
+download: /tmp

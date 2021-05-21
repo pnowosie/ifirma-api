@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-temp_dir = Path("/tmp")
 script_path = os.path.realpath(__file__)
 module_path = os.path.dirname(os.path.dirname(script_path))
 sys.path.append(module_path)
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         email_send_response = Api.email_invoice(invoice_id, email_address, task['message'])
         print(f'Email sent {email_send_response}')
 
-    if create_invoice_response.success and True:
-        download_path = temp_dir / f"invoice_{invoice_id}.pdf"
+    if create_invoice_response.success and (download_dir := task.get('download')):
+        download_path = Path(download_dir) / f"invoice_{invoice_id}.pdf"
         Api.download_invoice(invoice_id, download_path)
         print(f"Invoice written to {download_path}")
