@@ -1,7 +1,6 @@
-import os, sys
-import requests
+import os
+import sys
 from pathlib import Path
-
 
 temp_dir = Path("/tmp")
 script_path = os.path.realpath(__file__)
@@ -10,9 +9,7 @@ sys.path.append(module_path)
 print("Module path: " + module_path)
 
 from ifirma.yaml_parser import parse
-from ifirma.serializer import make_email, make_invoice
-from ifirma.request import Request, InvoiceResponse
-
+import ifirma.api as Api
 
 
 if __name__ == "__main__":
@@ -24,28 +21,17 @@ if __name__ == "__main__":
 
     with open(filename) as f:
         task = parse(f)
-    
-    invoice_data = make_invoice(task['invoice'])
-    submit_request = Request().submit(invoice_data)
-    resp = submit_request.execute(requests)
-    resp.raise_for_status()
-    create_invoice_response = InvoiceResponse(resp.json())
-    print(create_invoice_response)
+
+    create_invoice_response = Api.create_invoice(task['invoice'])
     invoice_id = create_invoice_response.invoice_id
 
-    print(f'Invoice created successfully {invoice_id=}')
+    print(f'Invoice created successfully {create_invoice_response}')
 
     if create_invoice_response.success and (email_address := task.get('send_to')):
-        email_data = make_email(email_address, task['message'])
-        email_request = Request().email(invoice_id, email_data)
-        email_send_response = email_request.execute(requests)
-        email_send_response.raise_for_status()
-        print(f'Email sent {email_send_response.json()}')
+        email_send_response = Api.email_invoice(invoice_id, email_address, task['message'])
+        print(f'Email sent {email_send_response}')
 
-    download_path = temp_dir / f"invoice_{invoice_id}.pdf"
-    download_request = Request().download(invoice_id)
-    download_resp = download_request.execute(requests)
-    download_resp.raise_for_status()
-
-    download_path.write_bytes(download_resp.content)
-    print(f"Invoice written to {download_path}")
+    if create_invoice_response.success and True:
+        download_path = temp_dir / f"invoice_{invoice_id}.pdf"
+        Api.download_invoice(invoice_id, download_path)
+        print(f"Invoice written to {download_path}")
