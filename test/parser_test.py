@@ -1,5 +1,5 @@
-from ifirma.yaml_parser import parse
 from ifirma.invoice import Invoice
+from ifirma.yaml_parser import parse
 
 INVOICE_YAML = """
 issue_place: Krychnowice
@@ -25,11 +25,17 @@ SEND_EMAIL_YAML = """
 send_to: email@example.com
 """
 
+DOWNLOAD_INVOICE_YAML = """
+
+download: /home/me/invoices
+"""
+
 
 def test_parser_returns_invoice():
     task = parse(INVOICE_YAML)
     assert 'invoice' in task.keys()
     assert isinstance(task['invoice'], Invoice)
+
 
 def test_parser_parses_customer():
     task = parse(INVOICE_YAML)
@@ -119,3 +125,9 @@ positions:
     task = parse(simple_invoice)
     invoice = task['invoice']
     assert date(2020, 6, 19) == invoice.issue_date
+
+
+def test_invoice_with_download_path():
+    task = parse(INVOICE_YAML + DOWNLOAD_INVOICE_YAML)
+
+    assert task['download'] == '/home/me/invoices'

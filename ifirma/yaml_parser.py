@@ -1,9 +1,12 @@
-from yaml import load, FullLoader
-from ifirma.invoice import Invoice, InvoicePosition
 from datetime import date
 
+from yaml import load, FullLoader
+
+from ifirma.invoice import Invoice, InvoicePosition
+
 today = date.today()
-DEFAULT_EMAIL_MESSAGE=f'W załączeniu przesyłam fakturę za {today.year}/{today.month:02}.\nPozdrawiam :)'
+DEFAULT_EMAIL_MESSAGE = f'W załączeniu przesyłam fakturę za {today.year}/{today.month:02}.\nPozdrawiam :)'
+
 
 def parse(str):
     doc = load(str, Loader=FullLoader)
@@ -20,9 +23,12 @@ def parse(str):
 
     invoice.positions = list(map(lambda pos: InvoicePosition(pos['name'], pos['amount']), doc['positions']))
     task = dict(invoice=invoice)
-    
+
     if doc.get('send_to'):
         task['send_to'] = doc['send_to']
         task['message'] = doc.get('message') or DEFAULT_EMAIL_MESSAGE
+
+    if doc.get('download'):
+        task['download'] = doc['download']
 
     return task

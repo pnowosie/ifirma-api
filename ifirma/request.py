@@ -1,11 +1,4 @@
-import hmac
 import json
-from binascii import unhexlify
-from hashlib import sha1
-import requests
-
-from ifirma.config import API_USER, API_KEY
-from ifirma.serializer import make_email, make_invoice
 
 INVOICE_KEY_NAME = "faktura"
 API_URL = 'https://www.ifirma.pl/iapi'
@@ -13,75 +6,68 @@ API_INVOICE_OPER = API_URL + '/fakturakraj'
 API_INVOICE_LIST = API_URL + '/faktury.json'
 
 
-def sign_raw(data, key):
-    api_key = key if isinstance(key, bytes) else unhexlify(key)
-    bin_data = data.encode(encoding='utf-8', errors='strict')
+class Request:
+    def __init__(self, api_user=None, api_key=None):
+        from ifirma.config import get_credentials
+        self.data = None
+        self.headers = {'Content-Type': 'application/json; charset=utf8', }
+        self.api_user, self.api_key = get_credentials(api_user, api_key)
 
-    return hmac.new(api_key, bin_data, sha1).hexdigest()
+    def get(self, invoice_id):
+        self.url = f"{API_INVOICE_OPER}/{invoice_id}.json"
+        return self
 
-def sign(request_url, data, api_user=None, api_key=None, api_scope=None):
-    api_user, api_key, api_scope = api_user or API_USER, api_key or API_KEY, api_scope or INVOICE_KEY_NAME
-    base_url = request_url.split('?')[0]
+    def email(self, invoice_id, data):
+        self.data = Request.assert_data(data)
+        self.url = f"{API_INVOICE_OPER}/send/{invoice_id}.json?wyslijEfaktura=true" 
+        return self
 
-    sign_data = f"{base_url}{api_user}{api_scope}{data}"
-    api_token = sign_raw(sign_data, api_key)
+    def list(self, params):
+        defaults = dict(invoice_type='prz_faktura_kraj', page=1, items_on_page=20)
+        query = "?typ={invoice_type}&dataOd={date_from}&dataDo={date_to}&strona={page}&iloscNaStronie={items_on_page}"
+        self.url = API_INVOICE_LIST + query.format(**{**defaults, **params})
+        return self
 
-    return "IAPIS user={}, hmac-sha1={}".format(api_user, api_token)
+    def download(self, invoice_id, print_type='single'):
+        self.url = f"{API_INVOICE_OPER}/{invoice_id}.pdf.{print_type}"
+        self.headers = {**self.headers, 'Accept': 'application/pdf'}
+        return self
 
-def send_invoice(invoice):
-    url = f"{API_INVOICE_OPER}.json"
-    json_req = json.dumps(make_invoice(invoice))
-    auth = sign(url, json_req)
-   
-    headers = {'Content-Type': 'application/json; charset=utf8', 'Authentication': auth}
-    r = requests.post(url, data=json_req, headers=headers)
+    def submit(self, data):
+        self.data = Request.assert_data(data)
+        self.url = f"{API_INVOICE_OPER}.json"
+        return self
 
-    r.raise_for_status()
-    return InvoiceResponse(r.json())
+    @property
+    def api_token(self):
+        assert self.api_user, "Can't authenticate, missing api user"
+        assert self.api_key, "Can't authenticate, missing api key"
+        assert self.url, "Can't authenticate, missing url"
 
-def send_email(invoice_id, email_address, text):
-    json_req = json.dumps(make_email(email_address, text))
-    url = f"{API_INVOICE_OPER}/send/{invoice_id}.json?wyslijEfaktura=true"
+        base_url = self.url.split('?')[0]
+        sign_data = f"{base_url}{self.api_user}{INVOICE_KEY_NAME}{self.data or ''}"
+        
+        return sign_raw(sign_data, self.api_key) 
+
+    @property
+    def auth_header(self):
+        return f"IAPIS user={self.api_user}, hmac-sha1={self.api_token}"
     
-    auth = sign(url, json_req)
+    def execute(self, http_module):
+        headers = {**self.headers, 'Authentication': self.auth_header}
+        if self.data is not None:
+            return http_module.post(self.url, data=self.data, headers=headers)
+        else:
+            return http_module.get(self.url, headers=headers)
 
-    headers = {'Content-Type': 'application/json; charset=utf8', 'Authentication': auth}
-    r = requests.post(url, data=json_req, headers=headers)
+    @staticmethod
+    def assert_data(data):
+        allowed_data_types = [dict, str]
 
-    r.raise_for_status()
-    return r.json()
+        data_type_allowed = any(isinstance(data, type) for type in allowed_data_types)
+        assert data_type_allowed, f"Data parameter has wrong type of '{type(data)}'. Data type should be {allowed_data_types}."
 
-def get_invoices_list(date_from, date_to, invoice_type='prz_faktura_kraj', page=1, items_on_page=20):
-    request_url = API_INVOICE_LIST + "?typ={}&dataOd={}&dataDo={}&strona={}&iloscNaStronie={}".format(
-        invoice_type, date_from, date_to, page, items_on_page
-    )
-    auth = sign(request_url, '')
-
-    headers = {'Content-Type': 'application/json; charset=utf8', 'Authentication': auth}
-    r = requests.get(request_url, headers=headers)
-
-    r.raise_for_status()
-    return r.json()
-
-def get_invoice(invoice_id):
-    url = f"{API_INVOICE_OPER}/{invoice_id}.json"
-    auth = sign(url, '')
-
-    headers = {'Content-Type': 'application/json; charset=utf8', 'Authentication': auth}
-    r = requests.get(url, headers=headers)
-
-    r.raise_for_status()
-    return r.json()
-
-def download_invoice(invoice_id, path, type="single"):
-    url = f"{API_INVOICE_OPER}/{invoice_id}.pdf.{type}"
-    auth = sign(url, '')
-    
-    headers = {'Accept': 'application/pdf', 'Authentication': auth}
-    r = requests.get(url, headers=headers)
-
-    r.raise_for_status()
-    path.write_bytes(r.content)
+        return data if isinstance(data, str) else json.dumps(data)
 
 class InvoiceResponse:
     def __init__(self, response):
@@ -93,3 +79,17 @@ class InvoiceResponse:
         self.message = response['Informacja']
         if self.success:
             self.invoice_id = response['Identyfikator']
+
+    def __repr__(self):
+        return "InvoiceResponse(success=%r, %r)" % (self.success, self.invoice_id if self.success else self.message)
+
+
+def sign_raw(data, key):
+    import hmac
+    from binascii import unhexlify
+    from hashlib import sha1
+
+    api_key = key if isinstance(key, bytes) else unhexlify(key)
+    bin_data = data.encode(encoding='utf-8', errors='strict')
+
+    return hmac.new(api_key, bin_data, sha1).hexdigest()
