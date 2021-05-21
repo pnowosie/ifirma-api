@@ -26,8 +26,8 @@ if __name__ == "__main__":
         task = parse(f)
     
     invoice_data = make_invoice(task['invoice'])
-    submit_reqest = Request().submit(invoice_data)
-    resp = submit_reqest.execute(requests)
+    submit_request = Request().submit(invoice_data)
+    resp = submit_request.execute(requests)
     resp.raise_for_status()
     create_invoice_response = InvoiceResponse(resp.json())
     print(create_invoice_response)

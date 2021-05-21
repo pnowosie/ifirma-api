@@ -5,15 +5,17 @@ This little project aims to refresh my python coding skills.
 
 Besides coding fun this code also supported invoicing in a few small online shops. It does its job pretty well.
 
-First version was inspired of @DariuszAniszewski's [python-ifirma](https://github.com/DariuszAniszewski/python-ifirma) but covers slightly different operations.
+First version was inspired of @DariuszAniszewski's [python-ifirma](https://github.com/DariuszAniszewski/python-ifirma) 
+but covers slightly different operations.
 
 ## Features
 
 It supports following operations
-- create invoice (VAT payer)
-- create invoice (non-VAT payer)
+- create invoice (VAT & non-VAT payers)
+- [listing invoices created in past](/sample_invoice/list_invoices.py)
 - send email with pdf-invoice attached (it sends also copy to the account owner)
 - parses invoice described with yaml file
+- download invoice in pdf format
 
 ## Getting started
 
@@ -27,7 +29,8 @@ pip install -e git+git@github.com:pnowosie/ifirma-api.git#egg=pnowosie.ifirma-ap
 ```
 ## Invoice creation
 
-Please review example from `./sample_invoice` directory. You will find there how to create and send invoice via email with yaml file.
+Please review examples in `./sample_invoice` directory. You will find there how to create invoice from yaml file. 
+Send it via email and download pdf version to a location of choice.
 
 Or create invoice from code
 
