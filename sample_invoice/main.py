@@ -22,10 +22,9 @@ if __name__ == "__main__":
         task = parse(f)
 
     create_invoice_response = Api.create_invoice(task['invoice'])
-    invoice_id = create_invoice_response.invoice_id
-
     print(f'Invoice created successfully {create_invoice_response}')
 
+    invoice_id = create_invoice_response.invoice_id
     if create_invoice_response.success and (email_address := task.get('send_to')):
         email_send_response = Api.email_invoice(invoice_id, email_address, task['message'])
         print(f'Email sent {email_send_response}')

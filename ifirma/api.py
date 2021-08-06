@@ -12,16 +12,16 @@ implement pathlib.Path.write_bytes()
 
 """
 
+from yaml import serialize
 import ifirma.config as Config
 from ifirma.request import Request
 
 
 def create_invoice(invoice):
     from ifirma.request import InvoiceResponse
-    serializer = Config.get_serializer_module()
     http = Config.get_http_module()
 
-    data = serializer.make_invoice(invoice)
+    data = _serialize(invoice)
     resp = Request().submit(data).execute(http)
 
     resp.raise_for_status()
@@ -46,3 +46,10 @@ def download_invoice(invoice_id, file_handle):
 
     resp.raise_for_status()
     file_handle.write_bytes(resp.content)
+
+def _serialize(invoice_or_string):
+    if isinstance(invoice_or_string, str):
+        return invoice_or_string
+
+    serializer = Config.get_serializer_module()
+    return serializer.make_invoice(invoice_or_string)
