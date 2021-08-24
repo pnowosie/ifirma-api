@@ -20,7 +20,7 @@ It supports following operations
 ## When you add more? Are PRs welcomed?
 
 Probably never. It's here to support my business. 
-If you looking for ideas how to extend it, 👉 see [issue #8](https://github.com/pnowosie/ifirma-api/issues/8)
+If you're looking for ideas how to extend it, 👉 see [issue #8](https://github.com/pnowosie/ifirma-api/issues/8)
 
 ## Getting started
 
