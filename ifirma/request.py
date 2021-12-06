@@ -7,10 +7,11 @@ API_INVOICE_LIST = API_URL + '/faktury.json'
 
 
 class Request:
-    def __init__(self, api_user=None, api_key=None):
+    def __init__(self, api_user=None, api_key=None, api_key_name=INVOICE_KEY_NAME):
         from ifirma.config import get_credentials
         self.data = None
         self.headers = {'Content-Type': 'application/json; charset=utf8', }
+        self.key_name = api_key_name
         self.api_user, self.api_key = get_credentials(api_user, api_key)
 
     def get(self, invoice_id):
@@ -45,7 +46,7 @@ class Request:
         assert self.url, "Can't authenticate, missing url"
 
         base_url = self.url.split('?')[0]
-        sign_data = f"{base_url}{self.api_user}{INVOICE_KEY_NAME}{self.data or ''}"
+        sign_data = f"{base_url}{self.api_user}{self.key_name}{self.data or ''}"
         
         return sign_raw(sign_data, self.api_key) 
 
