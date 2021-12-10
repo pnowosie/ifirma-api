@@ -29,4 +29,11 @@ PAYED_INVOICE_WITH_NEW_CUSTOMER = _invoice().with_payed(
       Customer('Jan Nowak', 'jan@nowak.pl', '00-000', 'Warszawa', 'Al. Jerozolimskie', '111/22')
    )
 
+PAYED_NONVAT_INVOICE_FOR_COMPANY = _invoice().with_payed(
+      11.22
+   ).with_new_customer(
+      Customer('EDOPI Software', 'kontakt@edopi.pl', '00-000', 'Warszawa', 'Al. Jerozolimskie', '111/22',
+         vat_id='PL1234567890')
+   )
+
 SEND_EMAIL_WITH_INVOICE_REQUEST = make_email(SAMPLE_API_USER, 'W zalaczeniu przesylam fakturke\n\nUszanowania,\nJan Nowak')

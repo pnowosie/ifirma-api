@@ -1,0 +1,48 @@
+{
+  "DataSprzedazy": "2020-07-23",
+  "DataWystawienia": "2020-07-23",
+  "FormatDatySprzedazy": "DZN",
+  "Kontrahent": {
+    "AdresZagraniczny": false,
+    "Email": "kontakt@edopi.pl",
+    "Identyfikator": null,
+    "KodPocztowy": "00-000",
+    "Miejscowosc": "Warszawa",
+    "NIP": "PL1234567890",
+    "Nazwa": "EDOPI Software",
+    "OsobaFizyczna": false,
+    "Ulica": "Al. Jerozolimskie, 111/22"
+  },
+  "LiczOd": "BRT",
+  "MiejsceWystawienia": "Warszawa",
+  "NazwaSzablonu": "Logo",
+  "Numer": null,
+  "PodpisWystawcy": "Pawe\u0142 Nowosielski",
+  "Pozycje": [
+    {
+      "CenaJednostkowa": 1.23,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Pozycja kt\u00f3rej nie umiem wyja\u015bni\u0107",
+      "PodstawaPrawna": "Art. 113 ust. 1",
+      "StawkaVat": null,
+      "TypStawkiVat": "ZW"
+    },
+    {
+      "CenaJednostkowa": 9.99,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Kolejna dro\u017csza od \ud83d\udc46o tej",
+      "PodstawaPrawna": "Art. 113 ust. 1",
+      "StawkaVat": null,
+      "TypStawkiVat": "ZW"
+    }
+  ],
+  "RodzajPodpisuOdbiorcy": "BPO",
+  "SposobZaplaty": "ELE",
+  "TerminPlatnosci": "2020-08-06",
+  "Uwagi": "Komentarz sw\u00f3j pozostawiam",
+  "WidocznyNumerGios": false,
+  "Zaplacono": 11.22,
+  "ZaplaconoNaDokumencie": 11.22
+}

@@ -35,6 +35,10 @@ def _invoice_new_customer(customer):
       "AdresZagraniczny": customer.address_abroad 
     }
 
+    if customer.vat_id:
+        part["OsobaFizyczna"] = False
+        part["NIP"] = customer.vat_id
+
     if not customer.address_abroad:
         part.update({
             "KodPocztowy": customer.zip,

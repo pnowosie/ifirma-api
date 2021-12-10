@@ -22,10 +22,11 @@ class InvoicePosition:
 
 
 class Customer:
-    def __init__(self, full_name, email, zip, city, street1, street2):
+    def __init__(self, full_name, email, zip, city, street1, street2, vat_id=None):
         self.full_name = full_name
         self.email = email
         self.address_abroad = not zip
+        self.vat_id = vat_id
         self.zip = zip
         self.city = city
         self.street = (street1 or '') + (f', {street2}' if street2 else '')
