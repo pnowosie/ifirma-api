@@ -8,8 +8,10 @@ known_customer:
 positions:
   - name: Pozycja której nie umiem wyjaśnić
     amount: 1.23
+    flat_rate: 0.085
   - name: Kolejna droższa od 👆 o tej
     amount: 9.99
+    flat_rate: 0.12
 
 ban: '00000000000000000000000000'
 comments: >

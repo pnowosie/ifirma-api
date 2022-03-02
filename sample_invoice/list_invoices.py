@@ -11,7 +11,7 @@ print("Module path: " + module_path)
 from ifirma.request import Request
 
 if __name__ == "__main__":
-    date_from = date(2020, 7, 1)
+    date_from = date(2022, 1, 1)
     params = dict(date_from=date_from, date_to=date_from + timedelta(days=30))
     req = Request().list(params)
     

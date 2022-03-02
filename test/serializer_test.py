@@ -41,3 +41,14 @@ def test_create_nonvat_payer_invoice_with_new_company_customer_request():
     generated_invoice_req = dumps(make_invoice(PAYED_NONVAT_INVOICE_FOR_COMPANY), indent=2, sort_keys=True)
     #print(generated_invoice_req)
     assert EXPECTED_INVOICE_REQ == generated_invoice_req
+
+def test_create_vat_payer_invoice_with_flat_rate_request():
+    EXPECTED_INVOICE_REQ = open(f'{SAMPLE_DATA_DIR}/create_vat_payer_invoice_with_flat_rate.request.json').read()
+    INVOICE_WITH_KNOWN_CUSTOMER.invoice_type = INVOICE_TYPE.VAT_PAYER
+
+    # set flat rates into stubbed invoice's positions
+    [fst, snd] = INVOICE_WITH_KNOWN_CUSTOMER.positions
+    fst.flat_rate = 0.085
+    snd.flat_rate = 0.12
+
+    assert EXPECTED_INVOICE_REQ == dumps(make_invoice(INVOICE_WITH_KNOWN_CUSTOMER), indent=2, sort_keys=True)
