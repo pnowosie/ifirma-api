@@ -24,14 +24,19 @@ If you're looking for ideas how to extend it, 👉 see [issue #8](https://github
 
 ## Getting started
 
+I recomend to install package directly from github as I'm getting too lazy to publish new versions to pypi.
+The part `@{SHA}` is a commit's id (sha) and can be ommitted (defaults to HEAD).
 ```
-pip install pnowosie.ifirma-api
+pip install -e git+https://github.com/pnowosie/ifirma-api.git@{SHA}#egg=pnowosie.ifirma-api
+```
+
+or PyPI still works, but you probably won't be on the bleeding edge ;) If PyPI is your way, consider helping me with 
+[issue #10](https://github.com/pnowosie/ifirma-api/issues/10)
+```
+pip install pnowosie.ifirma-api=={VERSION}
 ```
 
 or from this repository
-```
-pip install -e git+git@github.com:pnowosie/ifirma-api.git#egg=pnowosie.ifirma-api
-```
 ## Invoice creation
 
 Please review examples in `./sample_invoice` directory. You will find there how to create invoice from yaml file. 
@@ -52,7 +57,7 @@ invoice = Invoice(
 ).with_comments(
     f"Nr zamówienia: {numer}"
 ).with_position(
-    InvoicePosition(product_name, float(price))
+    InvoicePosition(product_name, float(price), flat_rate=float(ryczałt))
 ).with_new_customer(
     Customer(full_name, email, zip, city, street1, street2)
 )
