@@ -12,7 +12,7 @@ script_path = os.path.realpath(__file__)
 module_path = os.path.dirname(os.path.dirname(script_path))
 sys.path.append(module_path)
 
-from ifirma.request import Request
+from ifirma.api import create_invoice
 
 if __name__ == "__main__":
     if len(sys.argv) == 1 or not sys.argv[1].strip():
@@ -22,9 +22,6 @@ if __name__ == "__main__":
         print("Reading file: " + filename)
 
     file_content = open(filename, encoding="utf-8").read()
-    req = Request()
-    resp = req.submit(file_content).execute(requests)
+    resp_json = create_invoice(file_content)
 
-    resp.raise_for_status()
-    invoices_json = resp.json()
-    print(invoices_json)
+    print(resp_json)

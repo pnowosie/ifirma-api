@@ -1,0 +1,43 @@
+{
+  "DataSprzedazy": "2022-10-03",
+  "DataWystawienia": "2022-10-03",
+  "FormatDatySprzedazy": "DZN",
+  "IdentyfikatorKontrahenta": "CONSENSIUS F",
+  "LiczOd": "NET",
+  "MiejsceWystawienia": "Sulejówek",
+  "NIPKontrahenta": "7010345307",
+  "NazwaSzablonu": "Logo",
+  "Numer": null,
+  "NumerKontaBankowego": "00000000000000000000000000",
+  "PodpisWystawcy": "Paweł Nowosielski",
+  "Pozycje": [
+    {
+      "CenaJednostkowa": 1.23,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Pozycja której nie umiem wyjaśnić",
+      "PKWiU": "",
+      "StawkaRyczaltu": 0.085,
+      "StawkaVat": 0.23,
+      "TypStawkiVat": "PRC"
+    },
+    {
+      "CenaJednostkowa": 9.99,
+      "Ilosc": 1,
+      "Jednostka": "szt",
+      "NazwaPelna": "Kolejna droższa od 👆 o tej",
+      "PKWiU": "",
+      "StawkaRyczaltu": 0.12,
+      "StawkaVat": 0.23,
+      "TypStawkiVat": "PRC"
+    }
+  ],
+  "PrefiksUEKontrahenta": "PL",
+  "RodzajPodpisuOdbiorcy": "BPO",
+  "SplitPayment": false,
+  "SposobZaplaty": "PRZ",
+  "TerminPlatnosci": "2022-10-15",
+  "Uwagi": "Komentarz swój pozostawiam: ą, ć, ę, ł, ń, ó, ś, ź, ż",
+  "WidocznyNumerGios": false,
+  "Zaplacono": 0
+}

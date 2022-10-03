@@ -11,14 +11,15 @@ returned from `Request.execute()` or expects `file_handle` would
 implement pathlib.Path.write_bytes()
 
 """
+import json
 
-from yaml import serialize
 import ifirma.config as Config
 from ifirma.request import Request
 
 
 def create_invoice(invoice):
     from ifirma.request import InvoiceResponse
+
     http = Config.get_http_module()
 
     data = _serialize(invoice)
@@ -47,9 +48,12 @@ def download_invoice(invoice_id, file_handle):
     resp.raise_for_status()
     file_handle.write_bytes(resp.content)
 
+
 def _serialize(invoice_or_string):
     if isinstance(invoice_or_string, str):
-        return invoice_or_string
+        # we need to properly encode unicode characters in the string
+        proper_json = json.loads(invoice_or_string)
+        return json.dumps(proper_json)
 
     serializer = Config.get_serializer_module()
     return serializer.make_invoice(invoice_or_string)
