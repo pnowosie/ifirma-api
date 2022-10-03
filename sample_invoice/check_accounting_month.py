@@ -16,7 +16,7 @@ environment variable of `IFIRMA_API_KEY` will be used.
 # IMPORTANT: This example requires that "abonent" API key is generated.
 # See ifirma's "Podstawowe klucze autoryzacji" in the "Settings / API" section
 """
-import os, sys
+import os, sys, json
 import requests
 
 script_path = os.path.realpath(__file__)
@@ -25,15 +25,28 @@ sys.path.append(module_path)
 
 from ifirma.request import Request, API_URL
 
-req = Request(
-	api_key_name="abonent", 
-	api_key=os.environ.get("IFIRMA_abonent_API_KEY")
-)
+req = Request(api_key_name="abonent", api_key=os.environ.get("IFIRMA_abonent_API_KEY"))
 req.url = f"{API_URL}/abonent/miesiacksiegowy.json"
 
-# Here the GET request method is used.
-# `execute` only supports GET / POST requests
-# For PUT one shall directly use of `requests` library
+if len(sys.argv) > 1:
+    if sys.argv[1] not in ["NAST", "POPRZ"]:
+        print("USAGE: python check_accounting_month.py [opt: `POPRZ | NAST`]")
+        sys.exit(
+            "Run without args to check current month. Provide 'NAST' or 'POPRZ' to change."
+        )
+    # Here the PUT request method is used.
+    # Because `req.execute` only supports GET / POST requests
+    # for PUT one shall directly use of `requests` library
+    req.data = json.dumps(
+        dict(MiesiacKsiegowy=sys.argv[1], PrzeniesDaneZPoprzedniegoRoku=False)
+    )
+    headers = {**req.headers, "Authentication": req.auth_header}
+    resp = requests.put(req.url, data=req.data, headers=headers)
+    print(resp.json())
+
+    req.data = None
+
+# Checking the current data
 resp = req.execute(requests)
 
 resp.raise_for_status()
