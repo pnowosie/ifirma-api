@@ -16,12 +16,12 @@ from ifirma.request import Request
 
 if __name__ == "__main__":
     if len(sys.argv) == 1 or not sys.argv[1].strip():
-        sys.exit('Provide an ifirma invoice request json')
+        sys.exit("Provide an ifirma invoice request json")
     else:
         filename = sys.argv[1]
-        print('Reading file: ' + filename)
+        print("Reading file: " + filename)
 
-    file_content = open(filename).read()
+    file_content = open(filename, encoding="utf-8").read()
     req = Request()
     resp = req.submit(file_content).execute(requests)
 
