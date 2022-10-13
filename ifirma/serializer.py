@@ -1,4 +1,4 @@
-from ifirma.invoice import INVOICE_TYPE
+from ifirma.invoice import INVOICE_TYPE, Invoice, InvoicePosition
 
 
 def _format_date(date):
@@ -6,6 +6,10 @@ def _format_date(date):
 
 
 def _make_invoice_generic_position(position):
+    assert isinstance(
+        position, InvoicePosition
+    ), f"Expected ifirma.InvoicePosition type but got {type(position)}"
+
     pos = {
         "Ilosc": position.quantity,
         "CenaJednostkowa": position.base_price,
@@ -101,6 +105,10 @@ _invoice_sane_defaults = {
 
 
 def make_invoice(invoice):
+    assert isinstance(
+        invoice, Invoice
+    ), f"Expected ifirma.Invoice type but got {type(invoice)}"
+
     position_creator = make_invoice_position_for(invoice)
     idict = _invoice_sane_defaults[invoice.invoice_type].copy()
     idict.update(

@@ -88,6 +88,10 @@ class InvoiceResponse:
         if self.success:
             self.invoice_id = response["Identyfikator"]
 
+        # for tests when FakeHttpResponse.json() is passed
+        if "_request" in response:
+            self.test_data = response["_request"]
+
     def __repr__(self):
         return "InvoiceResponse(success=%r, %r)" % (
             self.success,

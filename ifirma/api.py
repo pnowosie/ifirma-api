@@ -49,11 +49,12 @@ def download_invoice(invoice_id, file_handle):
     file_handle.write_bytes(resp.content)
 
 
-def _serialize(invoice_or_string):
-    if isinstance(invoice_or_string, str):
+def _serialize(invoice_kind):
+    if isinstance(invoice_kind, str):
+        invoice_kind = json.loads(invoice_kind)
+    if isinstance(invoice_kind, dict):
         # we need to properly encode unicode characters in the string
-        proper_json = json.loads(invoice_or_string)
-        return json.dumps(proper_json)
+        return json.dumps(invoice_kind)
 
     serializer = Config.get_serializer_module()
-    return serializer.make_invoice(invoice_or_string)
+    return serializer.make_invoice(invoice_kind)
