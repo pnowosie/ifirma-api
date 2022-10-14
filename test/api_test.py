@@ -2,7 +2,7 @@ import ifirma.api as api
 from fake_http_module import FakeHttpModule
 import ifirma.config as config
 from stubs import INVOICE_WITH_KNOWN_CUSTOMER
-import json, pytest
+import json
 
 config.HttpModule = FakeHttpModule
 

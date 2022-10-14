@@ -6,7 +6,6 @@ USAGE:
 $ python sample_invoice/send_arbitrary_requests.py <PATH TO REQUEST.json>
 """
 import os, sys
-import requests
 
 script_path = os.path.realpath(__file__)
 module_path = os.path.dirname(os.path.dirname(script_path))
@@ -22,6 +21,6 @@ if __name__ == "__main__":
         print("Reading file: " + filename)
 
     file_content = open(filename, encoding="utf-8").read()
-    resp_json = create_invoice(file_content)
+    resp = create_invoice(file_content)
 
-    print(resp_json)
+    print(resp)

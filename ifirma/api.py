@@ -14,6 +14,7 @@ implement pathlib.Path.write_bytes()
 import json
 
 import ifirma.config as Config
+from ifirma.invoice import Invoice
 from ifirma.request import Request
 
 
@@ -50,11 +51,8 @@ def download_invoice(invoice_id, file_handle):
 
 
 def _serialize(invoice_kind):
-    if isinstance(invoice_kind, str):
-        invoice_kind = json.loads(invoice_kind)
-    if isinstance(invoice_kind, dict):
-        # we need to properly encode unicode characters in the string
-        return json.dumps(invoice_kind)
+    if not isinstance(invoice_kind, Invoice):
+        return invoice_kind
 
     serializer = Config.get_serializer_module()
     return serializer.make_invoice(invoice_kind)

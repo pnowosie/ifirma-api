@@ -74,7 +74,11 @@ class Request:
             data_type_allowed
         ), f"Data parameter has wrong type of '{type(data)}'. Data type should be {allowed_data_types}."
 
-        return data if isinstance(data, str) else json.dumps(data)
+        if isinstance(data, str):
+            data = json.loads(data)
+
+        # we need to properly encode unicode characters in the string
+        return json.dumps(data)
 
 
 class InvoiceResponse:

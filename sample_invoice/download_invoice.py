@@ -22,5 +22,5 @@ if __name__ == "__main__":
         sys.exit(f"ERROR: Path '{download_dir}' does not exists")
 
     path = download_dir / f"invoice_{invoice_id}.pdf"
-    Api.download_invoice(invoice_id, path)
+    Api.download_invoice(invoice_id, Path(path))
     print(f"File written to {path}")

@@ -1,0 +1,35 @@
+{
+  "NazwaUslugi": "Tworzenie oprogramowania",
+  "UslugaSwiadczonaTrybArt28b": true,
+  "ZaplaconoNaDokumencie": 0,
+  "NumerKontaBankowego": "00000000000000000000000000",
+  "DataWystawienia": "2022-10-14",
+  "MiejsceWystawienia": "Sulejówek",
+  "DataSprzedazy": "2022-10-03",
+  "FormatDatySprzedazy": "DZN",
+  "DataObowiazkuPodatkowego": "2022-10-31",
+  "TerminPlatnosci": "2022-11-10",
+  "SposobZaplaty": "PRZ",
+  "NazwaSeriiNumeracji": "default",
+  "NazwaSzablonu": "logo",
+  "Jezyk": "en",
+  "Waluta": "PLN",
+  "RodzajPodpisuOdbiorcy": "BPO",
+  "PodpisWystawcy": "Paweł Nowosielski",
+  "WidocznyNumerGios": false,
+  "Numer": null,
+  "Pozycje": [
+    {
+      "StawkaVat": 0,
+      "StawkaRyczaltu": 0.12,
+      "Ilosc": 15,
+      "CenaJednostkowa": 100,
+      "NazwaPelna": "Usługi zg. z umową z dn 1970.01.01",
+      "NazwaPelnaObca": "Services according to agreement 1970.01.01",
+      "Jednostka": "godz",
+      "JednostkaObca": "hour",
+      "TypStawkiVat": "PRC"
+    }
+  ],
+  "IdentyfikatorKontrahenta": "CONSENSIUS F"
+}
