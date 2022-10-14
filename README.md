@@ -1,45 +1,60 @@
 # Python wrapper for [ifirma's API](https://api.ifirma.pl)
 
-Requires `Python 3.8` or later. 
+Requires `Python 3.8` or later.
 This little project aims to refresh my python coding skills.
 
 Besides coding fun this code also supported invoicing in a few small online shops. It does its job pretty well.
 
-First version was inspired of @DariuszAniszewski's [python-ifirma](https://github.com/DariuszAniszewski/python-ifirma) 
-but covers slightly different operations.
+First version was inspired of @DariuszAniszewski's [python-ifirma](https://github.com/DariuszAniszewski/python-ifirma)
+but covers slightly different operations and has evolved over the years to support more use cases.
+
+Natively supported by this package invoice type is ifirma's `faktura krajowa`.
+However is not that hard to create other invoice types using arbitrary request feature.
+Which is just to send any ifirma's json request from file template, you can find examples in `sample_invoice` folder.
 
 ## Features
 
 It supports following operations
+
 - create invoice (VAT & non-VAT payers)
 - [listing invoices created in past](/sample_invoice/list_invoices.py)
-- send email with pdf-invoice attached (it sends also copy to the account owner)
-- parses invoice described with yaml file
-- download invoice in pdf format
+- [send email with pdf-invoice attached](/sample_invoice/main.py) (it sends also copy to the account owner)
+- [download invoice in pdf format](/sample_invoice/main.py)
+- allows to authenticate and [send arbitrary json request](/sample_invoice/send_arbitrary_requests.py)
+- invoice can be described with [yaml format](/sample_invoice/consensius.yml)
 
 ## When you add more? Are PRs welcomed?
 
-Probably never. It's here to support my business. 
-If you're looking for ideas how to extend it, 👉 see [issue #8](https://github.com/pnowosie/ifirma-api/issues/8)
+Probably never. It's here to support my business.
+If you're looking for ideas how to extend it, 👉 see arbitrary requests from `sample_invoice` directory.
+These might be mostly interested if some non-standard ifirma's api operation is required:
+
+- [Arbitrary request of other type of invoice](/sample_invoice/send_arbitrary_other_requests.py)
+- [Check and change the current accounting month](/sample_invoice/check_accounting_month.py)
+
+Other ideas of extension can be find in [issue #8](https://github.com/pnowosie/ifirma-api/issues/8) discusion.
 
 ## Getting started
 
 I recomend to install package directly from github as I'm getting too lazy to publish new versions to pypi.
 The part `@{SHA}` is a commit's id (sha) and can be ommitted (defaults to HEAD).
+
 ```
 pip install -e git+https://github.com/pnowosie/ifirma-api.git@{SHA}#egg=pnowosie.ifirma-api
 ```
 
-or PyPI still works, but you probably won't be on the bleeding edge ;) If PyPI is your way, consider helping me with 
+or PyPI still works, but you probably won't be on the bleeding edge ;) If PyPI is your way, consider helping me with
 [issue #10](https://github.com/pnowosie/ifirma-api/issues/10)
+
 ```
 pip install pnowosie.ifirma-api=={VERSION}
 ```
 
 or from this repository
+
 ## Invoice creation
 
-Please review examples in `./sample_invoice` directory. You will find there how to create invoice from yaml file. 
+Please review examples in `./sample_invoice` directory. You will find there how to create invoice from yaml file.
 Send it via email and download pdf version to a location of choice.
 
 Or create invoice from code
@@ -64,6 +79,7 @@ invoice = Invoice(
 ```
 
 if you registered your customer in `ifirma` you can use
+
 ```python
 invoice.with_known_customer(
   name, tax_id
@@ -72,6 +88,7 @@ invoice.with_known_customer(
 
 Having invoice object, we can send it to create an invoice in the ifirma. Please mind that two environment variables
 IFIRMA_API_USERNAME and IFIRMA_API_KEY have to be set to authenticate API request.
+
 ```python
 import ifirma.api as Api
 

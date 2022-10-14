@@ -46,10 +46,10 @@ if len(sys.argv) > 1:
 
     req.data = None
 
-# Checking the current data
+# Checking the current accounting month
 resp = req.execute(requests)
 
 resp.raise_for_status()
-invoices_json = resp.json()
+resp_json = resp.json()
 
-print(invoices_json)
+print(resp_json)
