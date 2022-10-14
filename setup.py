@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pnowosie.ifirma-api",  # Replace with your own username
-    version="1.2.0",
+    version="1.3.0",
     author="Paweł Nowosielski",
     author_email="nowosielski@gmail.com",
     description="IFirma API client",
