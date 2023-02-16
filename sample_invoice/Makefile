@@ -3,6 +3,8 @@
 # EXAMPLE: make env who=kasia 
 who := my
 
+PYTHON := ../.venv/bin/python 
+
 venv:
 	python -m venv .venv
 
@@ -12,13 +14,13 @@ install:
 	pip install -r requirements.txt
 
 invoice:
-	../.venv/bin/python main.py consensius.yml
+	${PYTHON} main.py consensius.yml
 
 check-month:
-	@env $$(cat ".env") ../.venv/bin/python check_accounting_month.py
+	@env $$(cat ".env") ${PYTHON} check_accounting_month.py
 
 list-invoices:
-	@env $$(cat ".env") ../.venv/bin/python list_invoices.py
+	@env $$(cat ".env") ${PYTHON} list_invoices.py
 
 # pseudo-automatic secret set
 env:
