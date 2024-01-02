@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-import ifirma.config as config
+from ifirma import config
 
 
 class VAT:

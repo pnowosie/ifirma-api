@@ -28,6 +28,6 @@ def get_http_module():
 
 
 def get_serializer_module():
-    import ifirma.serializer as Serializer
-
-    return SerializerModule or Serializer
+    if not SerializerModule:
+        from ifirma import serializer
+    return SerializerModule or serializer

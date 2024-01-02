@@ -36,21 +36,19 @@ Other ideas of extension can be find in [issue #8](https://github.com/pnowosie/i
 
 ## Getting started
 
-I recomend to install package directly from github as I'm getting too lazy to publish new versions to pypi.
-The part `@{SHA}` is a commit's id (sha) and can be ommitted (defaults to HEAD).
-
-```
-pip install -e git+https://github.com/pnowosie/ifirma-api.git@{SHA}#egg=pnowosie.ifirma-api
-```
-
-or PyPI still works, but you probably won't be on the bleeding edge ;) If PyPI is your way, consider helping me with
-[issue #10](https://github.com/pnowosie/ifirma-api/issues/10)
+Finally ifirma-api got a proper python packaging process :) and newest version can
+be installed from PyPI.
 
 ```
 pip install pnowosie.ifirma-api=={VERSION}
 ```
 
-or from this repository
+or directly from GitHub from this repository, commit's id (SHA) and can be ommitted (defaults to HEAD).
+
+```
+pip install -e git+https://github.com/pnowosie/ifirma-api.git@{SHA}#egg=pnowosie.ifirma-api
+```
+
 
 ## Invoice creation
 
@@ -90,9 +88,9 @@ Having invoice object, we can send it to create an invoice in the ifirma. Please
 IFIRMA_API_USERNAME and IFIRMA_API_KEY have to be set to authenticate API request.
 
 ```python
-import ifirma.api as Api
+from ifirma import api
 
-create_invoice_response = Api.create_invoice(invoice)
+create_invoice_response = api.create_invoice(invoice)
 
 if create_invoice_response.success:
     print(f"Invoice created with id {create_invoice_response}")
@@ -104,20 +102,26 @@ Next step can be send an email with the invoice attached to the customer email a
 address registered in the ifirma.
 
 ```python
-import ifirma.api as Api
+from ifirma import api
 
 custom_message = "Can you please send me more money? I'm getting ambitious vacation plans!"
-email_send_response = Api.email_invoice(invoice_id, customer_email_address, custom_message)
+email_send_response = api.email_invoice(invoice_id, customer_email_address, custom_message)
 ```
 
 If the pdf copy of the invoice is needed to be stored, we can download it as well
 
 ```python
-import ifirma.api as Api
+from ifirma import api
 from pathlib import Path
 
 file_path = Path('/tmp') / f"invoice_{invoice_id}.pdf"
-Api.download_invoice(invoice_id, file_path)
+api.download_invoice(invoice_id, file_path)
 ```
 
 Please check [this example](https://github.com/pnowosie/ifirma-api/blob/main/sample_invoice/main.py).
+
+## Special Thanks
+
+- @DariuszAniszewski - [his project](https://github.com/DariuszAniszewski/python-ifirma) was an inspiration,
+- @krystianmagdziarz - who helped and contribute to examples,
+- @daneah for his amaizing book "Publishing Python Packages" which finally taugh me packaging mastery (or monkey-ry, choose most fitting)

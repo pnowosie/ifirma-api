@@ -16,7 +16,7 @@ module_path = os.path.dirname(os.path.dirname(script_path))
 sys.path.append(module_path)
 
 from ifirma.api import create_invoice, download_invoice
-import ifirma.request as url_mod
+from src import ifirma as url_mod
 
 if __name__ == "__main__":
     filename = "sample_invoice/arbitrary_other_invoice_type.json"

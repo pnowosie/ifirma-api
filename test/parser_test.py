@@ -146,8 +146,6 @@ positions:
 
 
 def test_simple_invoice_with_flat_rate():
-    from datetime import date
-
     simple_invoice = """
 issue_date: 2020-06-19
 known_customer:

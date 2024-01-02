@@ -7,8 +7,6 @@ module_path = os.path.dirname(os.path.dirname(script_path))
 sys.path.append(module_path)
 print("Module path: " + module_path)
 
-import ifirma.api as Api
-
 USAGE = 'USAGE: python download_invoice.py <invoice_id> <download_dir>'
 if __name__ == "__main__":
 
@@ -22,5 +20,5 @@ if __name__ == "__main__":
         sys.exit(f"ERROR: Path '{download_dir}' does not exists")
 
     path = download_dir / f"invoice_{invoice_id}.pdf"
-    Api.download_invoice(invoice_id, Path(path))
+    api.download_invoice(invoice_id, Path(path))
     print(f"File written to {path}")

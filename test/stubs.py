@@ -1,6 +1,6 @@
 from datetime import date
-from ifirma.invoice import Invoice, InvoicePosition, Customer, INVOICE_TYPE
-from ifirma.serializer import make_invoice, make_email
+from ifirma.invoice import Invoice, InvoicePosition, Customer
+from ifirma.serializer import make_email
 from ifirma.config import configure
 
 configure(place='Warszawa', issuer='Paweł Nowosielski')

@@ -8,8 +8,6 @@ sys.path.append(module_path)
 print("Module path: " + module_path)
 
 from ifirma.yaml_parser import parse
-import ifirma.api as Api
-
 
 if __name__ == "__main__":
     if len(sys.argv) == 1 or not sys.argv[1].strip():
@@ -21,15 +19,15 @@ if __name__ == "__main__":
     with open(filename) as f:
         task = parse(f)
 
-    create_invoice_response = Api.create_invoice(task['invoice'])
+    create_invoice_response = api.create_invoice(task['invoice'])
     print(f'Invoice created successfully {create_invoice_response}')
 
     invoice_id = create_invoice_response.invoice_id
     if create_invoice_response.success and (email_address := task.get('send_to')):
-        email_send_response = Api.email_invoice(invoice_id, email_address, task['message'])
+        email_send_response = api.email_invoice(invoice_id, email_address, task['message'])
         print(f'Email sent {email_send_response}')
 
     if create_invoice_response.success and (download_dir := task.get('download')):
         download_path = Path(download_dir) / f"invoice_{invoice_id}.pdf"
-        Api.download_invoice(invoice_id, download_path)
+        api.download_invoice(invoice_id, download_path)
         print(f"Invoice written to {download_path}")

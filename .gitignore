@@ -1,7 +1,9 @@
 .venv/
+.tox/
 __pycache__/
 build/
 dist/
 *egg-info/
+.coverage
 secret*
 .env
