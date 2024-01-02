@@ -1,8 +1,10 @@
-# Example invoice creation from yaml file
+# Example invoice creation (from yaml file) and other actions
+
+You need to clone this repo or download [source release](https://github.com/pnowosie/ifirma-api/releases) to your local directory.
 
 ## Try this
 
-I assume all actions will be invoke from `sample-invoice` folder.
+I assume all actions will be invoke from this `examples` folder.
 
 ### 1. Install dependencies into venv
    `make install`
@@ -27,3 +29,4 @@ where command is:
 
 Remove secrets and venv artifacts
 `make clean clean-env`
+

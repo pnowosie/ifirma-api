@@ -4,7 +4,7 @@ venv:
 	python3 -m venv .venv
 
 install: venv
-	${PYTHON} -m pip install -e git+https://github.com/pnowosie/ifirma-api.git#egg=pnowosie.ifirma-api
+	${PYTHON} -m pip install ..
 
 invoice:
 	${PYTHON} main.py consensius.yml
