@@ -122,6 +122,7 @@ Please check [this example](https://github.com/pnowosie/ifirma-api/blob/main/sam
 
 ## Special Thanks
 
-- @DariuszAniszewski - [his project](https://github.com/DariuszAniszewski/python-ifirma) was an inspiration,
-- @krystianmagdziarz - who helped and contribute to examples,
-- @daneah for his amaizing book "Publishing Python Packages" which finally taugh me packaging mastery (or monkey-ry, choose most fitting)
+- [Dariusz Aniszewski](https://github.com/DariuszAniszewski) - [his project](https://github.com/DariuszAniszewski) was an inspiration,
+- [Krystian Magdziarz](https://github.com/krystianmagdziarz) - who helped and contribute to examples,
+- [Dane Hillard](https://github.com/daneah) for his amaizing book "Publishing Python Packages" which finally taugh me packaging mastery (or monkey-ry, choose most fitting)
+    

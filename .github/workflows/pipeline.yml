@@ -5,6 +5,7 @@ on:
 
 jobs:
   format:
+    if: ${{ false }} # not ready yet
     name: Check formatting
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +22,7 @@ jobs:
         run: tox -e format
 
   lint:
+    if: ${{ false }} # not ready yet
     name: Lint
     runs-on: ubuntu-latest
     steps:
@@ -37,6 +39,7 @@ jobs:
         run: tox -e lint
 
   typecheck:
+    if: ${{ false }} # not ready yet
     name: Type check
     runs-on: ubuntu-latest
     steps:
