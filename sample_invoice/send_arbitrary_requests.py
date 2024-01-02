@@ -3,13 +3,9 @@ Example shows how to use this package to authenticate
 arbitrary request from json file.
 
 USAGE:
-$ python sample_invoice/send_arbitrary_requests.py <PATH TO REQUEST.json>
+$ py send_arbitrary_requests.py <PATH TO REQUEST.json>
 """
 import os, sys
-
-script_path = os.path.realpath(__file__)
-module_path = os.path.dirname(os.path.dirname(script_path))
-sys.path.append(module_path)
 
 from ifirma.api import create_invoice
 

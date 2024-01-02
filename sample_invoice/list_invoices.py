@@ -3,11 +3,6 @@ from datetime import date, timedelta
 import requests
 from pprint import pprint
 
-script_path = os.path.realpath(__file__)
-module_path = os.path.dirname(os.path.dirname(script_path))
-sys.path.append(module_path)
-print("Module path: " + module_path)
-
 from ifirma.request import Request
 
 if __name__ == "__main__":

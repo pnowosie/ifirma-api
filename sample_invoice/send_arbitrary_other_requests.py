@@ -6,14 +6,10 @@ Request to send: sample_invoice/arbitrary_other_invoice_type.json
 which is "Świadczenie usług poza terytorium kraju"
 
 USAGE:
-$ python sample_invoice/send_arbitrary_other_requests.py
+$ py send_arbitrary_other_requests.py
 """
 import os, sys
 from pathlib import Path
-
-script_path = os.path.realpath(__file__)
-module_path = os.path.dirname(os.path.dirname(script_path))
-sys.path.append(module_path)
 
 from ifirma.api import create_invoice, download_invoice
 from src import ifirma as url_mod

@@ -1,17 +1,10 @@
-# check secrets to inject into .env
-# VALUES: my (default) | kasia
-# EXAMPLE: make env who=kasia 
-who := my
-
 PYTHON := ../.venv/bin/python 
 
 venv:
-	python -m venv .venv
+	python3 -m venv .venv
 
-install:
-	# assumes venv activation
-	pip install -U pip
-	pip install -r requirements.txt
+install: venv
+	${PYTHON} -m pip install -e git+https://github.com/pnowosie/ifirma-api.git#egg=pnowosie.ifirma-api
 
 invoice:
 	${PYTHON} main.py consensius.yml
@@ -22,10 +15,8 @@ check-month:
 list-invoices:
 	@env $$(cat ".env") ${PYTHON} list_invoices.py
 
-# pseudo-automatic secret set
-env:
-	op inject -i "${who}.env" > .env
-	@echo "env file created, don't forget to 'clean-env'"
+clean:
+	rm -rf .venv
 
 clean-env:
 	rm .env

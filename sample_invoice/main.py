@@ -2,11 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-script_path = os.path.realpath(__file__)
-module_path = os.path.dirname(os.path.dirname(script_path))
-sys.path.append(module_path)
-print("Module path: " + module_path)
-
+from ifirma import api
 from ifirma.yaml_parser import parse
 
 if __name__ == "__main__":

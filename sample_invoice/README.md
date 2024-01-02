@@ -2,22 +2,28 @@
 
 ## Try this
 
-1. Create a venv and activate
-   `make venv && . ./.venv/bin/activate`
+I assume all actions will be invoke from `sample-invoice` folder.
 
-1. Inspect the requirements.txt file. You can also install directly from github repository, replace file's content with
-`-e git+git@github.com:pnowosie/ifirma-api.git#egg=pnowosie.ifirma-api`
-
-1. Install a package directly from pypi
+### 1. Install dependencies into venv
    `make install`
 
-1. Inspect the yaml file and provide your email address
-
-1. Provide ifirma api access details via environment variables `
+### 2. Provide ifirma api access details via environment variables `
 export IFIRMA_API_USERNAME=example@email.com` and `export IFIRMA_API_KEY=010203040A0B0C0D`
 
-1. Create invoice
-   `make invoice`
+Alternatively you can provide credentials to env.example file and rename it to `.env`
 
-1. Clean
-   `deactivate && make clean`
+
+### 3. Inspect the yaml file and provide your email address
+
+### 4. Create invoice
+   `make <command>`
+
+where command is:
+- invoice
+- list-invoices
+- check-month (requires `abonent_API_KEY` is set)
+
+### 5. Clear
+
+Remove secrets and venv artifacts
+`make clean clean-env`
