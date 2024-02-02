@@ -1,4 +1,4 @@
-PYTHON := ../.venv/bin/python 
+PYTHON := .venv/bin/python 
 
 venv:
 	python3 -m venv .venv
@@ -6,18 +6,20 @@ venv:
 install: venv
 	${PYTHON} -m pip install ..
 
+# I'm using 1password-cli to inject environment variables to the python
+# process. You can do without 1password by preparing `.env` file and task:
+# `env $$(cat ".env") ${PYTHON} script-file.py`
 invoice:
-	${PYTHON} main.py consensius.yml
+	op run --env-file op.env \
+	 ${PYTHON} main.py consensius.yml
 
 check-month:
-	@env $$(cat ".env") ${PYTHON} check_accounting_month.py
+	op run --env-file op.env \
+	 ${PYTHON} check_accounting_month.py
 
 list-invoices:
-	@env $$(cat ".env") ${PYTHON} list_invoices.py
+	op run --env-file op.env \
+	 ${PYTHON} list_invoices.py
 
 clean:
 	rm -rf .venv
-
-clean-env:
-	rm .env
-	@echo "unset IFIRMA_API_KEY IFIRMA_abonent_API_KEY IFIRMA_API_USERNAME"
